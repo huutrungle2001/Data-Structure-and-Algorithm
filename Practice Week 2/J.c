@@ -17,7 +17,7 @@ void inputData(Data *data) {
 }
 
 void displayData(Data data) {
-    printf("%d %d %s %s\n", data.ID, data.score, data.name, data.address);
+    printf("%d %d %s\n", data.ID, data.score, data.name);
 }
 
 typedef struct Node {
@@ -214,8 +214,8 @@ LinkedList getValidList(const LinkedList *list, int minScore, char *address) {
 }
 
 int main() {
-    freopen("Test_10.txt", "r", stdin);
-    freopen("bai4.out", "w", stdout);
+    freopen("bai5.inp", "r", stdin);
+    freopen("bai5.out", "w", stdout);
     LinkedList list = newList();
     int n, entranceScore;
     char address[1000];
@@ -228,7 +228,6 @@ int main() {
         addTail(&list, data);
     }
 
-    // displayList(&list);
 
     LinkedList validList = getValidList(&list, entranceScore, address);
     printf("Tinh: %s\n", address);
