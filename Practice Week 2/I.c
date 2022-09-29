@@ -4,15 +4,19 @@
 typedef struct Data {
     int ID;
     int score;
+    char name[100];
+    char address[100];
 } Data;
 
 void inputData(Data *data) {
     scanf("%d", &data->ID);
     scanf("%d", &data->score);
+    scanf("%s", data->name);
+    scanf("%s", data->address);
 }
 
 void displayData(Data data) {
-    printf("%d %d\n", data.ID, data.score);
+    printf("%d %d %s %s\n", data.ID, data.score, data.name, data.address);
 }
 
 typedef struct Node {
@@ -82,6 +86,22 @@ void addAt(LinkedList *list, Data data, int position) {
     Node *node = newNode(data);
     Node *it = list->head;
     while (position-- > 1) {
+        it = it->next;
+    }
+    node->next = it->next;
+    it->next = node;
+    list->size++;
+}
+
+void addIncreaseID(LinkedList *list, Data data) {
+    if (list->head == NULL) {
+        addHead(list, data);
+        return;
+    }
+
+    Node *node = newNode(data);
+    Node *it = list->head;
+    while (it->next != NULL && it->next->data.ID <= data.ID) {
         it = it->next;
     }
     node->next = it->next;
@@ -182,6 +202,34 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+LinkedList getValidList(const LinkedList *list, int minScore) {
+    LinkedList answer = newList();
+    Node *it = list->head;
+    while (it != NULL) {
+        if (it->data.score >= minScore) {
+            addTail(&answer, it->data);
+        }
+        it = it->next;
+    }
+    return answer;
+}
 
+int main() {
+    freopen("bai4.inp", "r", stdin);
+    freopen("bai4.out", "w", stdout);
+    LinkedList list = newList();
+    int n, entranceScore;
+    scanf("%d %d", &n, &entranceScore);
+
+    while (n-- > 0) {
+        Data data;
+        inputData(&data);
+        addTail(&list, data);
+    }
+
+    LinkedList validList = getValidList(&list, entranceScore);
+    printf("Tong so thi sinh trung tuyen: %d\n", validList.size);
+    displayList(&validList);
+
+    return 0;
 }

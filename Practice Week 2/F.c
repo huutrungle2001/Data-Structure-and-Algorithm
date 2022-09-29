@@ -11,10 +11,6 @@ void inputData(Data *data) {
     scanf("%d", &data->score);
 }
 
-void displayData(Data data) {
-    printf("%d %d\n", data.ID, data.score);
-}
-
 typedef struct Node {
     Data data;
     struct Node *next;
@@ -144,15 +140,15 @@ void deleteAt(LinkedList *list, int position) {
     list->size--;
 }
 
-void displayList(const LinkedList *list) {
-    if (list->head == NULL) {
+void displayList(LinkedList list) {
+    if (list.head == NULL) {
         printf("List is empty\n");
         return;
     }
 
-    Node *it = list->head;
-    while (it != list->tail->next) {
-        displayData(it->data);
+    Node *it = list.head;
+    while (it != list.tail->next) {
+        printf("%d ", it->data);
         it = it->next;
     }
     printf("\n");
@@ -182,6 +178,34 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+int getScore(LinkedList list, int ID) {
+    Node *it = list.head;
+    while (it != NULL) {
+        if (it->data.ID == ID) {
+            return it->data.score;
+        }
+        it = it->next;
+    }
+    return -1;
+}
 
+int main() {
+    LinkedList list = newList();
+    int n, ID;
+    scanf("%d%d", &n, &ID);
+    for (int i = 0; i < n; i++) {
+        Data data;
+        inputData(&data);
+        addTail(&list, data);
+    }
+
+    int score = getScore(list, ID);
+    if (score == -1) {
+        printf("No data\n");
+    } else {
+        printf("%d\n", score);
+    }
+
+    freeList(&list);
+    return 0;
 }

@@ -182,6 +182,53 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+LinkedList getValidList(const LinkedList *list, int minScore) {
+    LinkedList answer = newList();
+    Node *it = list->head;
+    while (it != NULL) {
+        if (it->data.score >= minScore) {
+            addTail(&answer, it->data);
+        }
+        it = it->next;
+    }
+    return answer;
+}
 
+void addIncreaseID(LinkedList *list, Data data) {
+    if (list->head == NULL || list->head->data.ID > data.ID) {
+        addHead(list, data);
+        return;
+    }
+
+    if (list->tail->data.ID < data.ID) {
+        addTail(list, data);
+        return;
+    }
+
+    Node *it = list->head;
+    while (it->next != NULL && it->next->data.ID < data.ID) {
+        it = it->next;
+    }
+
+    Node *node = newNode(data);
+    node->next = it->next;
+    it->next = node;
+    list->size++;
+}
+
+int main() {
+    LinkedList list = newList();
+    int n;
+    scanf("%d", &n);
+    n++;
+
+    while (n-- > 0) {
+        Data data;
+        inputData(&data);
+        addIncreaseID(&list, data);
+    }
+
+    displayList(&list);
+
+    return 0;
 }

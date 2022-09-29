@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Data {
     int ID;
     int score;
+    char name[1000];
+    char address[1000];
 } Data;
 
 void inputData(Data *data) {
     scanf("%d", &data->ID);
     scanf("%d", &data->score);
+    scanf("%s", data->name);
+    scanf("%s", data->address);
 }
 
 void displayData(Data data) {
-    printf("%d %d\n", data.ID, data.score);
+    printf("%d %d %s %s\n", data.ID, data.score, data.name, data.address);
 }
 
 typedef struct Node {
@@ -89,6 +94,22 @@ void addAt(LinkedList *list, Data data, int position) {
     list->size++;
 }
 
+void addIncreaseID(LinkedList *list, Data data) {
+    if (list->head == NULL) {
+        addHead(list, data);
+        return;
+    }
+
+    Node *node = newNode(data);
+    Node *it = list->head;
+    while (it->next != NULL && it->next->data.ID <= data.ID) {
+        it = it->next;
+    }
+    node->next = it->next;
+    it->next = node;
+    list->size++;
+}
+
 void deleteHead(LinkedList *list) {
     if (list->head == NULL) {
         printf("Error: List is empty\n");
@@ -146,7 +167,6 @@ void deleteAt(LinkedList *list, int position) {
 
 void displayList(const LinkedList *list) {
     if (list->head == NULL) {
-        printf("List is empty\n");
         return;
     }
 
@@ -155,7 +175,6 @@ void displayList(const LinkedList *list) {
         displayData(it->data);
         it = it->next;
     }
-    printf("\n");
 }
 
 Data getKthElement(LinkedList list, int k) {
@@ -182,6 +201,39 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+LinkedList getValidList(const LinkedList *list, int minScore, char *address) {
+    LinkedList answer = newList();
+    Node *it = list->head;
+    while (it != list->tail->next) {
+        if (it->data.score >= minScore && strcmp(it->data.address, address) == 0) {
+            addTail(&answer, it->data);
+        }
+        it = it->next;
+    }
+    return answer;
+}
 
+int main() {
+    freopen("Test_10.txt", "r", stdin);
+    freopen("bai4.out", "w", stdout);
+    LinkedList list = newList();
+    int n, entranceScore;
+    char address[1000];
+    scanf("%d %d", &n, &entranceScore);
+    scanf("%s", address);
+
+    while (n-- > 0) {
+        Data data;
+        inputData(&data);
+        addTail(&list, data);
+    }
+
+    // displayList(&list);
+
+    LinkedList validList = getValidList(&list, entranceScore, address);
+    printf("Tinh: %s\n", address);
+    printf("Tong so thi sinh trung tuyen: %d\n", validList.size);
+    displayList(&validList);
+
+    return 0;
 }

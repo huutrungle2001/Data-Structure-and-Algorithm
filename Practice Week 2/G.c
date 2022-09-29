@@ -182,6 +182,31 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+LinkedList getValidList(const LinkedList *list, int minScore) {
+    LinkedList answer = newList();
+    Node *it = list->head;
+    while (it != NULL) {
+        if (it->data.score >= minScore) {
+            addTail(&answer, it->data);
+        }
+        it = it->next;
+    }
+    return answer;
+}
 
+int main() {
+    LinkedList list = newList();
+    int n, minScore;
+    scanf("%d%d", &n, &minScore);
+    for (int i = 0; i < n; i++) {
+        Data data;
+        inputData(&data);
+        addTail(&list, data);
+    }
+
+    LinkedList answer = getValidList(&list, minScore);
+    printf("Tong so sinh vien tham du ky thi cuoi ky: %d\n", answer.size);
+    displayList(&answer);
+
+    return 0;
 }

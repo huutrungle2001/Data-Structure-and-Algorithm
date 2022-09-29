@@ -1,26 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Data {
-    int ID;
-    int score;
-} Data;
-
-void inputData(Data *data) {
-    scanf("%d", &data->ID);
-    scanf("%d", &data->score);
-}
-
-void displayData(Data data) {
-    printf("%d %d\n", data.ID, data.score);
-}
-
 typedef struct Node {
-    Data data;
+    int data;
     struct Node *next;
 } Node;
 
-Node *newNode(Data data) {
+Node *newNode(int data) {
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = data;
     node->next = NULL;
@@ -41,7 +27,7 @@ LinkedList newList() {
     return list;
 }
 
-void addHead(LinkedList *list, Data data) {
+void addHead(LinkedList *list, int data) {
     Node *node = newNode(data);
     if (list->head == NULL) {
         list->head = list->tail = node;
@@ -52,7 +38,7 @@ void addHead(LinkedList *list, Data data) {
     list->size++;
 }
 
-void addTail(LinkedList *list, Data data) {
+void addTail(LinkedList *list, int data) {
     Node *node = newNode(data);
     if (list->head == NULL) {
         list->head = list->tail = node;
@@ -63,7 +49,7 @@ void addTail(LinkedList *list, Data data) {
     list->size++;
 }
 
-void addAt(LinkedList *list, Data data, int position) {
+void addAt(LinkedList *list, int data, int position) {
     if (position < 0 || position > list->size) {
         printf("Error: Index out of bounds\n");
         return;
@@ -144,24 +130,24 @@ void deleteAt(LinkedList *list, int position) {
     list->size--;
 }
 
-void displayList(const LinkedList *list) {
-    if (list->head == NULL) {
+void displayList(LinkedList list) {
+    if (list.head == NULL) {
         printf("List is empty\n");
         return;
     }
 
-    Node *it = list->head;
-    while (it != list->tail->next) {
-        displayData(it->data);
+    Node *it = list.head;
+    while (it != list.tail->next) {
+        printf("%d ", it->data);
         it = it->next;
     }
     printf("\n");
 }
 
-Data getKthElement(LinkedList list, int k) {
+int getKthElement(LinkedList list, int k) {
     if (k < 0 || k >= list.size) {
         printf("Error: Index out of bounds\n");
-        return (Data){0, 0};
+        return -1;
     }
 
     Node *it = list.head;
@@ -182,6 +168,20 @@ void freeList(LinkedList *list) {
     list->size = 0;
 }
 
-int main(){
+int main() {
+    LinkedList list = newList();
 
+    int n, k;
+    scanf("%d%d", &n, &k);
+
+    while (n-- > 0) {
+        int data;
+        scanf("%d", &data);
+        addTail(&list, data);
+    }
+
+    deleteAt(&list, k - 1);
+    displayList(list);
+
+    freeList(&list);
 }
