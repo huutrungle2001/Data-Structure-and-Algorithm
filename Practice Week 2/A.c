@@ -160,7 +160,12 @@ int main() {
 
     int n;
     scanf("%d", &n);
-    
+
+    while (n-- > 0) {
+        int data;
+        scanf("%d", &data);
+        addTail(&list, data);
+    }
 
     displayList(list);
     freeList(&list);
