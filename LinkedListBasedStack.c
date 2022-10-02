@@ -59,16 +59,33 @@ Node *peek(Stack *stack) {
     return stack->head;
 }
 
-int main() {
-    Stack stack = newStack();
-    push(&stack, 1);
-    push(&stack, 2);
-    push(&stack, 3);
-    push(&stack, 4);
-    push(&stack, 5);
-    while (!isEmpty(&stack)) {
-        Node *node = pop(&stack);
-        printf("%d ", node->data);
+void chooseClothes() {
+    char clothesList[5][10] = {"blue", "yellow", "red", "deep blue", "green"};
+    int dryLeftDay[5] = {[0 ... 4] = -1};
+
+    Stack clothesStack = newStack();
+    for (int i = 0; i < 5; i++) {
+        push(&clothesStack, i);
     }
+
+    int dryDay = 2;
+
+    for (int day = 1; day <= 10; day++) {
+        for(int i = 0; i < 5; i++) {
+            dryLeftDay[i]--;
+        }
+        int clothes = pop(&clothesStack)->data;
+        printf("Day %d is clothes %s. \n", day, clothesList[clothes]);
+        dryLeftDay[clothes] = dryDay;
+        for (int i = 0; i < 5; i++) {
+            if (dryLeftDay[i] == 0) {
+                push(&clothesStack, i);
+            }
+        }
+    }
+}
+
+int main() {
+    chooseClothes();
     return 0;
 }
