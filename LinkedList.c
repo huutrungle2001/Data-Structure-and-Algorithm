@@ -144,6 +144,17 @@ void displayList(LinkedList list) {
     printf("\n");
 }
 
+Node *findNode(LinkedList list, int data) {
+    Node *it = list.head;
+    while (it != NULL) {
+        if (it->data == data) {
+            return it;
+        }
+        it = it->next;
+    }
+    return NULL;
+}
+
 void freeList(LinkedList *list) {
     Node *it = list->head;
     while (it != NULL) {
