@@ -93,6 +93,13 @@ void deleteTail(LinkedList *list) {
         return;
     }
 
+    if (list->head == list->tail) {
+        free(list->head);
+        list->head = list->tail = NULL;
+        list->size--;
+        return;
+    }
+
     Node *it = list->head;
     while (it->next != list->tail) {
         it = it->next;
@@ -168,9 +175,13 @@ void freeList(LinkedList *list) {
 
 int main() {
     LinkedList list = newList();
-    for (int i = 1; i <= 5; i++) {
-        addTail(&list, i);
-    }
+    // for (int i = 1; i <= 5; i++) {
+    //     addTail(&list, i);
+    // }
+    addTail(&list, 1);
+    displayList(list);
+    deleteTail(&list);
+    deleteTail(&list);
     displayList(list);
     freeList(&list);
 }
