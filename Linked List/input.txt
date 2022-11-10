@@ -1,0 +1,16 @@
+3
+DT001
+Nghien cuu thuat toan QuickSort
+Hoang Tuan
+Khoa
+3
+DT002
+Nghien cuu bai toan TSP
+Minh Long
+Truong
+2
+DT003
+Nghien cuu bai toan JSP
+Duong Giang
+Khoa
+5
