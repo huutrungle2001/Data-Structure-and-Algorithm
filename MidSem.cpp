@@ -2,9 +2,10 @@
 using namespace std;
 
 void display(const vector<int> &nums) {
-    for (const int &num : nums) {
-        cout << num << ", ";
+    for (int i = 0; i < nums.size() - 1; i++) {
+        cout << nums[i] << ",";
     }
+    cout << nums[nums.size() - 1] << endl;
 }
 
 void selectionSort(vector<int> &nums, int step) {
